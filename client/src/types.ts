@@ -29,6 +29,7 @@ interface Route {
 }
 
 interface Trip {
+	trip_list_id: number;
     trip_id: number;
 	trip_date: string;
 	trip_driver: string;
