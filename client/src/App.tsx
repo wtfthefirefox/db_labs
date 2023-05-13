@@ -7,11 +7,18 @@ import VehiclesPage from "./pages/vehiclesPage";
 import TripsPage from "./pages/tripsPage";
 import RoutePointsPage from "./pages/routePointsPage";
 import RoutesPage from "./pages/routesPage";
+import TripByDriversPage from "./pages/driverTripsPage";
+import FreeTripsPage from "./pages/freeTripsPage";
+import AverRouteLoadPage from "./pages/averRouteLoadPage";
 
 const defaultMenus = [
     {
         path: "/drivers",
         name: "drivers"
+    },
+    {
+        path: "/trips_driver",
+        name: "Driver trips"
     },
     {
         path: "/vehicles",
@@ -22,12 +29,20 @@ const defaultMenus = [
         name: "trips"
     },
     {
+        path: "/trips_free",
+        name: "Free trips"
+    },
+    {
         path: "/route_points",
         name: "route_points"
     },
     {
         path: "/routes",
         name: "routes"
+    },
+    {
+        path: "/routes_aver_load",
+        name: "Route aver load"
     }
 ];
 
@@ -80,6 +95,9 @@ const App: React.FC = () => {
                                 <Route path="trips" element={<TripsPage />} />
                                 <Route path="route_points" element={<RoutePointsPage />} />
                                 <Route path="routes" element={<RoutesPage />} />
+                                <Route path="trips_driver" element={<TripByDriversPage />} />
+                                <Route path="trips_free" element={<FreeTripsPage />} />
+                                <Route path="routes_aver_load" element={<AverRouteLoadPage />} />
                             </Routes>
                         </ProLayout>
                     </>

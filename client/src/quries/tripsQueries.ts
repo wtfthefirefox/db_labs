@@ -17,6 +17,32 @@ const tripsQueries = {
         );
     },
 
+    ListTripByDrivers: () => {
+        return useMutation(
+            (id: string) => {
+                return tripsProvider.listTripsByDriver(id);
+            },
+            {
+                onSuccess: async () => {
+                    await sleep(1000);
+                }
+            }
+        );
+    },
+
+    ListFreeTrips: () => {
+        return useMutation(
+            () => {
+                return tripsProvider.listFreeTrips();
+            },
+            {
+                onSuccess: async () => {
+                    await sleep(1000);
+                }
+            }
+        );
+    },
+
     CreateTrip: () => {
         const queryClient = useQueryClient();
 

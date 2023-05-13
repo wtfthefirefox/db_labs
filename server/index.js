@@ -138,6 +138,16 @@ app.delete('/routes_list/:name', (req, res) => {
     })
 })
 
+app.get('/route_aver_load', (req, res) => {
+    data_model.getAverRouteLoadList()
+    .then(response => {
+        res.status(200).send(response);
+    })
+    .catch(error => {
+        res.status(500).send(error);
+    })
+})
+
 app.get('/trips_list', (req, res) => {
     data_model.getTripList()
     .then(response => {
@@ -170,6 +180,26 @@ app.post('/trips_list/:name', (req, res) => {
 
 app.delete('/trips_list/:name', (req, res) => {
     data_model.deleteTripList(req.name)
+    .then(response => {
+        res.status(200).send(response);
+    })
+    .catch(error => {
+        res.status(500).send(error);
+    })
+})
+
+app.get('/trips_driver/:name', (req, res) => {
+    data_model.getTripsListByDriver(req.name)
+    .then(response => {
+        res.status(200).send(response);
+    })
+    .catch(error => {
+        res.status(500).send(error);
+    })
+})
+
+app.get('/trips_free', (req, res) => {
+    data_model.getFreeRoutePoints()
     .then(response => {
         res.status(200).send(response);
     })

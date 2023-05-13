@@ -1,9 +1,19 @@
 import apiRequest from "../utils/apiRequest";
-import {Trip} from "../types";
+import {FreeTrip, Trip, TripWithDriver} from "../types";
 
 const tripsProvider = {
     async listTrips(): Promise<Trip[]> {
         const response = await apiRequest.get("/trips_list");
+        return response.data;
+    },
+
+    async listTripsByDriver(id: string): Promise<TripWithDriver[]> {
+        const response = await apiRequest.get(`/trips_driver/${id}`);
+        return response.data;
+    },
+
+    async listFreeTrips(): Promise<FreeTrip[]> {
+        const response = await apiRequest.get("/trips_free");
         return response.data;
     },
 

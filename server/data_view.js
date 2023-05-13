@@ -287,6 +287,67 @@ const updateVehicle = (id, body) => {
   }) 
 }
 
+const getTripsListByDriver = (id) => {
+  return new Promise(function(resolve, reject) {
+    try {
+      pool.query(`SELECT trip_list.trip_list_id, trip_list.trip_id, trip_list.trip_date, trip_list.trip_tickets_count, drivers.driver_last_name, drivers.driver_name, drivers.driver_surname, drivers.driver_car_number, vehicles.vehicle_mark, vehicles.vehicle_seats_count
+      FROM trip_list, drivers, vehicles
+      where trip_list.trip_driver = drivers.driver_id and trip_list.trip_driver = '${id}' and vehicles.vehicle_gov_number = drivers.driver_car_number
+      ORDER BY trip_list.trip_date`, (error, results) => {
+        if (error || !results) {
+          reject(error)
+        }
+        resolve(results.rows);
+      })
+    } catch {
+      reject("error");
+    }
+  }) 
+}
+
+const getFreeRoutePoints = () => {
+  return new Promise(function(resolve, reject) {
+    try {
+      pool.query(`SELECT route_id, route_start_point, route_end_point
+      FROM public.ROUTES_LIST routes 
+      WHERE routes.route_id NOT IN (
+        SELECT routes.route_id
+        FROM public.TRIP_LIST trips
+        WHERE trips.trip_id = route_id
+      )
+      `, (error, results) => {
+        if (error) {
+          reject(error)
+        }
+        resolve(results.rows);
+      })
+    } catch {
+      reject("error");
+    }
+  }) 
+}
+
+const getAverRouteLoadList = () => {
+  return new Promise(function(resolve, reject) {
+    try {
+      pool.query(`SELECT route_id, COUNT(trip_id) AS trips_count, SUM(trip_tickets_count) / SUM(vehicle_seats_count) AS average_load
+      FROM TRIP_LIST
+      JOIN ROUTES_LIST ON TRIP_LIST.trip_id = ROUTES_LIST.route_id
+      JOIN DRIVERS ON TRIP_LIST.trip_driver = DRIVERS.driver_id
+      JOIN VEHICLES ON DRIVERS.driver_car_number = VEHICLES.vehicle_gov_number
+      GROUP BY route_id
+      `, (error, results) => {
+        if (error) {
+          reject(error)
+        }
+        resolve(results.rows);
+      })
+    } catch {
+      reject("error");
+    }
+  }) 
+}
+
 module.exports = {
   getDrivers,
   createDriver,
@@ -307,5 +368,8 @@ module.exports = {
   getVehicles,
   createVehicle,
   updateVehicle,
-  deleteVehicle
+  deleteVehicle,
+  getTripsListByDriver,
+  getFreeRoutePoints,
+  getAverRouteLoadList
 }

@@ -17,6 +17,19 @@ const routeQueries = {
         );
     },
 
+    ListAverRouteLoad: () => {
+        return useMutation(
+            () => {
+                return routeProvider.listAverRoutesLoad();
+            },
+            {
+                onSuccess: async () => {
+                    await sleep(1000);
+                }
+            }
+        );
+    },
+
     CreateRoute: () => {
         const queryClient = useQueryClient();
 

@@ -1,9 +1,14 @@
 import apiRequest from "../utils/apiRequest";
-import {Route} from "../types";
+import {Route, RouteAverLoad} from "../types";
 
 const routeProvider = {
     async listRoutes(): Promise<Route[]> {
         const response = await apiRequest.get("/routes_list");
+        return response.data;
+    },
+
+    async listAverRoutesLoad(): Promise<RouteAverLoad[]> {
+        const response = await apiRequest.get("/route_aver_load");
         return response.data;
     },
 
